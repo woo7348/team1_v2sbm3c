@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.imoney.ImoneyDAOInter">
+  <select id="checkAREA" resultType="int" parameterType="String">
+    SELECT COUNT(area) as cnt
+    FROM imoney
+    WHERE area=#{area}
+  </select>
+
+  <insert id="create" parameterType="dev.mvc.imoney.ImoneyVO">
+    INSERT INTO imoney(installno, prodno, bank, iname, area, per, rdate, adminno)
+    VALUES (imoney.seq.nextval,#{installno},#[prodno],#[bank], #{area}, #{per}, sysdate, #{adminno})
+  </insert>
+  
+  <select id="list" resultType="dev.mvc.imoney.ImoneyVO">
+    SELECT installno, prodno, bank, iname, area, per, rdate, adminno
+    FROM imoney
+    ORDER BY installno ASC
+  </select>
+
+
+  <!-- intsallno로 적금 정보 조회 -->
+  <select id="read" resultType="dev.mvc.imoney.ImoneyVO" parameterType="int">
+    SELECT installno, prodno, bank, iname, area, per, rdate, adminno
+    FROM imoney
+    WHERE installno = #{installno}
+  </select>  
+
+  <!-- 이자율 로 적금 정보 조회 -->
+  <select id="readByPer" resultType="dev.mvc.imoney.ImoneyVO" parameterType="String">
+    SELECT installno, prodno, bank, iname, area, per, rdate, adminno
+    FROM imoney
+    WHERE per = #{id}
+  </select>
+
+  <update id="update" parameterType="dev.mvc.imoney.ImoneyVO">
+    UPDATE imoney
+    SET #[prodno],#[bank], #{area}, #{per}, sysdate, #{adminno}
+    WHERE installno=#{installno}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    DELETE FROM imoney
+    WHERE installno=#{installno}
+  </delete>
+
+
+            
+</mapper> 
+
